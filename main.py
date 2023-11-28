@@ -1,66 +1,112 @@
-import tkinter as tk
-from tkinter import simpledialog, messagebox
+from Models.Climbers import Climbers
+from Models.Mountains import Mountains
 
-from Climbers.Models.Climbers import Climbers
 
-def print_records(records, field_name=None):
-    result = ""
-    for row, record in enumerate(records):
-        if field_name:
-            result += f"{row}) {record[field_name]}\n"
+def climber_menu(climbers):
+    while True:
+        print("Таблица Climbers:")
+        print("1. Показать все записи")
+        print("2. Показать значения поля 'name'")
+        print("3. Добавить запись")
+        print("4. Обновить запись")
+        print("5. Удалить запись")
+        print("0. Вернуться в главное меню")
+
+        choice = input("Введите номер действия: ")
+
+        if choice == '0':
+            break
+        elif choice == '1':
+            show_all_climbers(climbers)
+        elif choice == '2':
+            show_names(climbers)
+        elif choice == '3':
+            climbers.add_record()
+        elif choice == '4':
+            record_id = int(input("Введите ID записи, которую нужно изменить: "))
+            climbers.update_record(record_id)
+        elif choice == '5':
+            record_id = int(input("Введите ID записи, которую нужно удалить: "))
+            climbers.delete_record(record_id)
         else:
-            result += f"{row} - {record}\n"
-    return result
+            print("Неверный ввод. Попробуйте еще раз.")
 
-def show_records(records, field_name=None):
-    result = print_records(records, field_name)
-    tk.messagebox.showinfo("Records", result)
 
-def add_record_dialog(climber):
-    name = simpledialog.askstring("Add Record", "Enter name:")
-    address = simpledialog.askstring("Add Record", "Enter address:")
-    climber.add_record(name, address)
+def mountain_menu(mountains):
+    while True:
+        print("Таблица Mountains:")
+        print("1. Показать все горы")
+        print("2. Показать значения поля 'name'")
+        print("3. Добавить гору")
+        print("4. Обновить гору")
+        print("5. Удалить гору")
+        print("0. Вернуться в главное меню")
 
-def update_record_dialog(climber):
-    record_id = simpledialog.askinteger("Update Record", "Enter ID of the record to update:")
-    name = simpledialog.askstring("Update Record", "Enter new name:")
-    address = simpledialog.askstring("Update Record", "Enter new address:")
-    climber.update_record(record_id, name, address)
+        choice = input("Введите ваш выбор: ")
 
-def delete_record_dialog(climber):
-    record_id = simpledialog.askinteger("Delete Record", "Enter ID of the record to delete:")
-    climber.delete_record(record_id)
+        if choice == '0':
+            break
+        elif choice == '1':
+            show_all_mountains(mountains)
+        elif choice == '2':
+            show_names(mountains)
+        elif choice == '3':
+            mountains.add_record()
+        elif choice == '4':
+            record_id = int(input("Введите ID записи, которую нужно изменить: "))
+            mountains.update_record(record_id)
+        elif choice == '5':
+            record_id = int(input("Введите ID записи, которую нужно удалить: "))
+            mountains.delete_record(record_id)
+        else:
+            print("Неверный ввод. Попробуйте еще раз.")
+
+
+def show_all_climbers(climbers):
+    records = climbers.get('Climbers')
+    for i, record in enumerate(records):
+        print(f"{i} - {record}")
+
+
+def show_names(climbers):
+    names = climbers.getOneField('Climbers', 'name')
+    for i, name in enumerate(names):
+        print(f"{i} - {name['name']}")
+
+
+def show_all_mountains(mountains):
+    records = mountains.get('Mountains')
+    for i, record in enumerate(records):
+        print(f"{i} - {record}")
+
+
+def show_names(mountains):
+    names = mountains.getOneField('Mountains', 'name')
+    for i, name in enumerate(names):
+        print(f"{i} - {name['name']}")
+
 
 def main():
     climber = Climbers()
-
-    root = tk.Tk()
-    root.title("Climbers App")
+    mountain = Mountains()
 
     while True:
-        choice = simpledialog.askinteger("Choose Action", "Select action:\n1. Show all records\n2. Show 'name' values\n3. Add record\n4. Update record\n5. Delete record\n0. Exit")
+        print("Выберите таблицу:")
+        print("1. Таблица Climbers")
+        print("2. Таблица Mountains")
+        print("0. Выход")
 
-        if choice is None or choice == 0:
+        table_choice = input("Введите ваш выбор: ")
+
+        if table_choice == '0':
             break
+        elif table_choice == '1':
+            climber_menu(climber)
+        elif table_choice == '2':
+            mountain_menu(mountain)
+        else:
+            print("Неверный ввод. Попробуйте еще раз.")
 
-        elif choice == 1:
-            records = climber.get()
-            show_records(records)
-
-        elif choice == 2:
-            names = climber.getOneField('name')
-            show_records(names, field_name='name')
-
-        elif choice == 3:
-            add_record_dialog(climber)
-
-        elif choice == 4:
-            update_record_dialog(climber)
-
-        elif choice == 5:
-            delete_record_dialog(climber)
-
-    root.destroy()
 
 if __name__ == "__main__":
     main()

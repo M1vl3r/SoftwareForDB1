@@ -1,4 +1,6 @@
-from Climbers.Configuration.Config import connection
+import pymysql
+from pymysql.cursors import DictCursor
+from Configuration.Config import connection
 
 class Model:
     def get(self, table):
@@ -15,10 +17,11 @@ class Model:
             return cursor.fetchall()
         connection().close()
 
-    def add(self, table, fields, values):
+    def add(self, table, fields, *values):
         with connection().cursor() as cursor:
-            placeholders = ', '.join(['%s' for _ in values])
-            query = f"INSERT INTO {table} ({fields}) VALUES ({placeholders})"
+            fields_str = ', '.join(fields)
+            values_str = ', '.join(['%s'] * len(values))
+            query = f"INSERT INTO {table} ({fields_str}) VALUES ({values_str})"
             cursor.execute(query, values)
         connection().commit()
         connection().close()

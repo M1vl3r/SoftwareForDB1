@@ -1,4 +1,4 @@
-from Climbers.Models.Model import Model
+from Models.Model import Model
 
 class Climbers(Model):
     __nameTable = 'Climbers'

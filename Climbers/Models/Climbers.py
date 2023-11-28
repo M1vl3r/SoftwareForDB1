@@ -1,4 +1,4 @@
-from Models.Model import Model
+from Climbers.Models.Model import Model
 
 class Climbers(Model):
     __nameTable = 'Climbers'
@@ -11,9 +11,7 @@ class Climbers(Model):
     def getOneField(self, field):
         return super().getOneField(self.__nameTable, field)
 
-    def add_record(self):
-        name = input("Введите имя: ")
-        address = input("Введите адрес: ")
+    def add_record(self, name, address):
         fields = f"{self._Climbers__name}, {self._Climbers__address}"
         values = (name, address)
         super().add(self.__nameTable, fields, values)
@@ -36,7 +34,7 @@ class Climbers(Model):
         self.delete(self.__nameTable, 'id', record_id)
         print(f"Запись с ID {record_id} удалена.")
 
-    def update_record(self, record_id):
+    def update_record(self, record_id, name, address):
         try:
             record_id = int(record_id)
         except ValueError:
@@ -50,13 +48,9 @@ class Climbers(Model):
             print(f"Записи с ID {record_id} не существует.")
             return
 
-        # Получение новых значений для обновления
-        new_name = input("Введите новое имя: ")
-        new_address = input("Введите новый адрес: ")
-
         # Обновление записи
         update_fields = [self.__name, self.__address]
-        new_values = [new_name, new_address]
+        new_values = [name, address]
 
         self.update(self.__nameTable, update_fields, new_values, 'id', record_id)
         print(f"Запись с ID {record_id} обновлена.")

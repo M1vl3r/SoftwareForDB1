@@ -1,4 +1,4 @@
-from Configuration.Config import connection
+from Climbers.Configuration.Config import connection
 
 class Model:
     def get(self, table):

@@ -1,5 +1,3 @@
-import pymysql
-from pymysql.cursors import DictCursor
 from Configuration.Config import connection
 
 class Model:

@@ -1,18 +1,19 @@
 from Models.Climbers import Climbers
 from Models.Mountains import Mountains
+from Models.Regons import Regons
+from Models.Ascents import Ascents  # Добавлен новый импорт
 
-
-def climber_menu(climbers):
+def climbers_menu(climbers):
     while True:
-        print("Таблица Climbers:")
-        print("1. Показать все записи")
-        print("2. Показать значения поля 'name'")
-        print("3. Добавить запись")
-        print("4. Обновить запись")
-        print("5. Удалить запись")
-        print("0. Вернуться в главное меню")
+        print("Climbers Table:")
+        print("1. Show all records")
+        print("2. Show 'name' field values")
+        print("3. Add record")
+        print("4. Update record")
+        print("5. Delete record")
+        print("0. Back to main menu")
 
-        choice = input("Введите номер действия: ")
+        choice = input("Enter the action number: ")
 
         if choice == '0':
             break
@@ -23,26 +24,25 @@ def climber_menu(climbers):
         elif choice == '3':
             climbers.add_record()
         elif choice == '4':
-            record_id = int(input("Введите ID записи, которую нужно изменить: "))
+            record_id = int(input("Enter the ID of the record to update: "))
             climbers.update_record(record_id)
         elif choice == '5':
-            record_id = int(input("Введите ID записи, которую нужно удалить: "))
+            record_id = int(input("Enter the ID of the record to delete: "))
             climbers.delete_record(record_id)
         else:
-            print("Неверный ввод. Попробуйте еще раз.")
+            print("Invalid input. Please try again.")
 
-
-def mountain_menu(mountains):
+def mountains_menu(mountains):
     while True:
-        print("Таблица Mountains:")
-        print("1. Показать все горы")
-        print("2. Показать значения поля 'name'")
-        print("3. Добавить гору")
-        print("4. Обновить гору")
-        print("5. Удалить гору")
-        print("0. Вернуться в главное меню")
+        print("Mountains Table:")
+        print("1. Show all mountains")
+        print("2. Show 'name' field values")
+        print("3. Add mountain")
+        print("4. Update mountain")
+        print("5. Delete mountain")
+        print("0. Back to main menu")
 
-        choice = input("Введите ваш выбор: ")
+        choice = input("Enter your choice: ")
 
         if choice == '0':
             break
@@ -53,61 +53,124 @@ def mountain_menu(mountains):
         elif choice == '3':
             mountains.add_record()
         elif choice == '4':
-            record_id = int(input("Введите ID записи, которую нужно изменить: "))
+            record_id = int(input("Enter the ID of the record to update: "))
             mountains.update_record(record_id)
         elif choice == '5':
-            record_id = int(input("Введите ID записи, которую нужно удалить: "))
+            record_id = int(input("Enter the ID of the record to delete: "))
             mountains.delete_record(record_id)
         else:
-            print("Неверный ввод. Попробуйте еще раз.")
+            print("Invalid input. Please try again.")
 
+def regions_menu(regions):
+    while True:
+        print("Regions Table:")
+        print("1. Show all records")
+        print("2. Add record")
+        print("3. Update record")
+        print("4. Delete record")
+        print("0. Back to main menu")
+
+        choice = input("Enter the action number: ")
+
+        if choice == '0':
+            break
+        elif choice == '1':
+            show_all_regions(regions)
+        elif choice == '2':
+            regions.add_record()
+        elif choice == '3':
+            record_id = int(input("Enter the ID of the record to update: "))
+            regions.update_record(record_id)
+        elif choice == '4':
+            record_id = int(input("Enter the ID of the record to delete: "))
+            regions.delete_record(record_id)
+        else:
+            print("Invalid input. Please try again.")
+
+def ascents_menu(ascents):
+    while True:
+        print("Ascents Table:")
+        print("1. Show all records")
+        print("2. Add record")
+        print("3. Update record")
+        print("4. Delete record")
+        print("0. Back to main menu")
+
+        choice = input("Enter the action number: ")
+
+        if choice == '0':
+            break
+        elif choice == '1':
+            show_all_ascents(ascents)
+        elif choice == '2':
+            ascents.add_record()
+        elif choice == '3':
+            record_id = int(input("Enter the ID of the record to update: "))
+            ascents.update_record(record_id)
+        elif choice == '4':
+            record_id = int(input("Enter the ID of the record to delete: "))
+            ascents.delete_record(record_id)
+        else:
+            print("Invalid input. Please try again.")
 
 def show_all_climbers(climbers):
     records = climbers.get('Climbers')
     for i, record in enumerate(records):
         print(f"{i} - {record}")
 
-
 def show_names(climbers):
     names = climbers.getOneField('Climbers', 'name')
     for i, name in enumerate(names):
         print(f"{i} - {name['name']}")
-
 
 def show_all_mountains(mountains):
     records = mountains.get('Mountains')
     for i, record in enumerate(records):
         print(f"{i} - {record}")
 
-
 def show_names(mountains):
     names = mountains.getOneField('Mountains', 'name')
     for i, name in enumerate(names):
         print(f"{i} - {name['name']}")
 
+def show_all_regions(regions):
+    records = regions.get('Regons')
+    for i, record in enumerate(records):
+        print(f"{i} - {record}")
+
+def show_all_ascents(ascents):
+    records = ascents.get('Ascents')
+    for i, record in enumerate(records):
+        print(f"{i} - {record}")
 
 def main():
     climber = Climbers()
     mountain = Mountains()
+    region = Regons()
+    ascent = Ascents()  # Создаем объект для работы с таблицей Ascents
 
     while True:
-        print("Выберите таблицу:")
+        print("Select table:")
         print("1. Таблица Climbers")
         print("2. Таблица Mountains")
-        print("0. Выход")
+        print("3. Таблица Regions")
+        print("4. Таблица Ascents")
+        print("0. Exit")
 
-        table_choice = input("Введите ваш выбор: ")
+        table_choice = input("Enter your choice: ")
 
         if table_choice == '0':
             break
         elif table_choice == '1':
-            climber_menu(climber)
+            climbers_menu(climber)
         elif table_choice == '2':
-            mountain_menu(mountain)
+            mountains_menu(mountain)
+        elif table_choice == '3':
+            regions_menu(region)
+        elif table_choice == '4':  # Добавлен новый пункт
+            ascents_menu(ascent)
         else:
-            print("Неверный ввод. Попробуйте еще раз.")
-
+            print("Invalid input. Please try again.")
 
 if __name__ == "__main__":
     main()
-#я пьянь
